@@ -1,0 +1,19 @@
+body {
+    background-color: #696996;
+    height: 100vh;
+
+    color: white;
+}
+
+.title-containter {
+    border: 10px solid red;
+    font-size: 100px;
+}
+
+.base-container {
+    background-color: #222224;
+    height: 100vh;
+
+    border: 3px solid white;
+    border-radius: 15px;
+}

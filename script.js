@@ -3,7 +3,7 @@ const rock = "rock";
 const paper = "paper";
 const scissors = "scissors";
 
-playGame();
+//playGame();
 
 function playGame() {
     //SCORES VALUES
