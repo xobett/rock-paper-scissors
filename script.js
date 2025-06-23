@@ -5,6 +5,15 @@ const scissors = "scissors";
 
 //playGame();
 
+const answer = document.createElement("div");
+answer.setAttribute("style", "text-align: center;");
+answer.textContent = "Testing";
+
+function addMessage() {
+    const mainContainer = document.querySelector(".base-container");
+    mainContainer.appendChild(answer);
+}
+
 function playGame() {
     //SCORES VALUES
     let humanScore = 0;
