@@ -3,11 +3,17 @@ const rock = "rock";
 const paper = "paper";
 const scissors = "scissors";
 
-//playGame();
+//GET ALL OPTION BUTTONS AND ADD AN EVENT LISTENER TO SAVE THE PLAYER'S CHOICE
+const buttons = document.querySelectorAll(".button");
 
-const answer = document.createElement("div");
-answer.setAttribute("style", "text-align: center;");
-answer.textContent = "Testing";
+for (let i = 0; i < buttons.length; i++){
+    buttons[i].addEventListener("click", getHumanChoice);
+}
+
+let chosenOption;
+
+const playerChoiceText = document.querySelector(".player-choice");
+const cpuChoiceText = document.querySelector(".cpu-choice");
 
 function addMessage() {
     const mainContainer = document.querySelector(".base-container");
@@ -19,11 +25,6 @@ function playGame() {
     let humanScore = 0;
     let computerScore = 0;
     
-    for (let i = 0; i < 5; i++) {
-        playRound(getHumanChoice(), getComputerChoice());
-        displayActualScore();
-    }
-
     determineWinner();
     
     function playRound(humanChoice, computerChoice){
@@ -118,8 +119,24 @@ function getComputerChoice(){
     return computerChoice;
 }
 
-function getHumanChoice(){
-    let humanChoice = prompt("Choose Rock, Paper or Scissors");
-    humanChoice = humanChoice.toLowerCase();
-    return humanChoice;
+function getHumanChoice(e){
+    const optionType = e.target.getAttribute("class");
+
+    switch (optionType){
+        case "button rock-button":{
+            chosenOption = rock;
+            break;
+        }
+        case "button paper-button":{
+            chosenOption = paper;
+            break;
+        }
+        case "button scissors-button":{
+            chosenOption = scissors;
+            break;
+        }
+    }
+
+    playerChoiceText.textContent = `PLAYER: ${chosenOption.toUpperCase()}`;
+    
 }
