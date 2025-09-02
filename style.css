@@ -89,6 +89,11 @@ body {
     display: flex;
     justify-content: space-between;
 
-    padding: 0 45px;
+    padding: 0px;
     margin: 20px;
+}
+
+.contestants-choices-container > div, .score-stats-container > div {
+    width: 30%;
+    text-align: center;
 }
