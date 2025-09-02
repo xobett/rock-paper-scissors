@@ -5,23 +5,23 @@ const rock = "rock";
 const paper = "paper";
 const scissors = "scissors";
 
+let gameOver = false;
+
 // #endregion GAME VALUES
 
 // #region PLAYABLE BUTTONS
 
 const buttons = document.querySelectorAll(".button");
 
-for (let i = 0; i < buttons.length; i++){
-    buttons[i].addEventListener("click", getPlayerChoice);
-}
-
 // #endregion PLAYABLE BUTTONS
 
 // #region CONTESTANTS STATS
 
-let playerChoice, playerScore;
+let playerChoice;
+let playerScore = 0;
 
-let cpuChoice, cpuScore;
+let cpuChoice;
+let cpuScore = 0;
 
 // #endregion CONTESTANTS STATS
 
@@ -33,78 +33,80 @@ const cpuChoiceTxt = document.querySelector(".cpu-choice");
 const playerScoreTxt = document.querySelector(".player-score");
 const cpuScoreTxt = document.querySelector(".cpu-score");
 
+const roundOutcomeTxt = document.querySelector(".round-outcome");
+
 // #endregion CONTESTANTS UI ELEMENTS
 
+for (let i = 0; i < buttons.length; i++){
+    buttons[i].addEventListener("click", (e) => playRound(e));
+}
+
 function playRound(e){
+
+    if (gameOver) return;
 
     playerChoice = getPlayerChoice(e);
     cpuChoice = getCpuChoice();
 
     displayContestantsChoices();
 
+    let outcomeResult;
     switch(playerChoice) {
         case rock:{
-            if (computerChoice === scissors) {
-                console.log("Rock beats Scissors, you win this round!");
+            if (cpuChoice === scissors) {
+                outcomeResult = "Rock beats Scissors, you win this round!";
                 playerScore++;
             }
             else{
-                if (computerChoice === paper) {
-                console.log("Paper beats Rock, you lost this round!");
-                computerScore++;
+                if (cpuChoice === paper) {
+                outcomeResult = "Paper beats Rock, you lost this round!";
+                cpuScore++;
                 }
-                else if (computerChoice === rock) {
-                console.log("Rock does not beat Rock, it's a tie!");
+                else if (cpuChoice === rock) {
+                outcomeResult = "Rock does not beat Rock, it's a tie!";
                 }
             }
             break;
         }
         case paper:{
-            if (computerChoice === rock) {
-                console.log("Paper beats Rock, you win this round!");
+            if (cpuChoice === rock) {
+                outcomeResult = "Paper beats Rock, you win this round!";
                 playerScore++;
             }
             else {
-                if (computerChoice === scissors) {
-                    console.log("Scissors beat Paper, you lost this round!");
-                    computerScore++;
+                if (cpuChoice === scissors) {
+                    outcomeResult = "Scissors beat Paper, you lost this round!";
+                    cpuScore++;
                 }
-                else if (computerChoice === paper) {
-                    console.log("Paper does not beat Paper, it's a tie!");
+                else if (cpuChoice === paper) {
+                    outcomeResult = "Paper does not beat Paper, it's a tie!";
                 }
             }
             break;
         }
         case scissors:{
-            if (computerChoice === paper) {
-                console.log("Scissors beat paper, you win this round!");
+            if (cpuChoice === paper) {
+                outcomeResult = "Scissors beat paper, you win this round!";
                 playerScore++;
             }
             else {
-                if (computerChoice === rock) {
-                    console.log("Rock beats Scissors, you lost this round!");
-                    computerScore++;
+                if (cpuChoice === rock) {
+                    outcomeResult = "Rock beats Scissors, you lost this round!";
+                    cpuScore++;
                 }
-                else if (computerChoice === scissors) {
-                    console.log("Scissors does not beat Scissors, it's a tie!");
+                else if (cpuChoice === scissors) {
+                    outcomeResult = "Scissors does not beat Scissors, it's a tie!";
                 } 
             }
             break;
         }
     }
+
+    displayActualScore();
+    displayRoundOutcome(outcomeResult);
 }
 
-function determineWinner() {
-    if (playerScore > computerScore) {
-        console.log(`You won with a score of ${playerScore}!`);
-    }
-    else if (playerScore < computerScore) {
-        console.log(`Computer won with a score of ${computerScore}!`);
-    }
-    else if(playerScore === computerScore) {
-        console.log("It's a tie!");
-    }
-}
+// #region UI FUNCS
 
 function displayActualScore() {
     playerScoreTxt.textContent = playerScore.toString();
@@ -113,46 +115,82 @@ function displayActualScore() {
 
 function displayContestantsChoices() {
     playerChoiceTxt.textContent = `PLAYER: ${playerChoice.toUpperCase()}`;
-    playerChoiceTxt.textContent = `CPU: ${cpuChoice.toUpperCase()}`;
+    cpuChoiceTxt.textContent = `CPU: ${cpuChoice.toUpperCase()}`;
 }
+
+function displayRoundOutcome(txt){
+    
+    if (playerScore >= 5 || cpuScore >= 5) {
+        determineWinner();
+        return;
+    }
+    
+    roundOutcomeTxt.textContent = txt;
+}
+
+function determineWinner() {
+
+    let gameResult;
+    if (playerScore > cpuScore) {
+        gameResult = `You won with a score of ${playerScore}!`;
+    }
+    else if (playerScore < cpuScore) {
+        gameResult = `Computer won with a score of ${cpuScore}!`;
+    }
+    else if(playerScore === cpuScore) {
+        gameResult = "It's a tie!";
+    }
+
+    displayRoundOutcome(gameResult);
+    gameOver = true;
+}
+
+// #endregion UI FUNCS
+
+// #region GAME FUNCS
 
 function getCpuChoice(){
     const randomChoice = Math.floor(Math.random() * 3);
-    let computerChoice;
+    let choice;
     
     switch (randomChoice) {
         case 0: {
-            computerChoice = rock;
+            choice = rock;
             break;
         }
         case 1:{
-            computerChoice = paper
+            choice = paper
             break;
         }
         case 2:{
-            computerChoice = scissors;
+            choice = scissors;
             break;
         }
     }
 
-    return computerChoice;
+    return choice;
 }
 
 function getPlayerChoice(e){
     const optionType = e.target.getAttribute("class");
+    let choice;
 
     switch (optionType){
         case "button rock-button":{
-            playerChoice = rock;
+            choice = rock;
             break;
         }
         case "button paper-button":{
-            playerChoice = paper;
+            choice = paper;
             break;
         }
         case "button scissors-button":{
-            playerChoice = scissors;
+            choice = scissors;
             break;
         }
     }
+
+    return choice;
 }
+
+// #endregion GAME FUNCS
