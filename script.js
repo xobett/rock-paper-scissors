@@ -54,15 +54,18 @@ function playRound(e){
     switch(playerChoice) {
         case rock:{
             if (cpuChoice === scissors) {
+                roundOutcomeTxt.setAttribute("class", "round-won");
                 outcomeResult = "Rock beats Scissors, you win this round!";
                 playerScore++;
             }
             else{
                 if (cpuChoice === paper) {
+                roundOutcomeTxt.setAttribute("class", "round-lost");
                 outcomeResult = "Paper beats Rock, you lost this round!";
                 cpuScore++;
                 }
                 else if (cpuChoice === rock) {
+                roundOutcomeTxt.setAttribute("class", "round-tie");
                 outcomeResult = "Rock does not beat Rock, it's a tie!";
                 }
             }
@@ -70,15 +73,18 @@ function playRound(e){
         }
         case paper:{
             if (cpuChoice === rock) {
+                roundOutcomeTxt.setAttribute("class", "round-won");
                 outcomeResult = "Paper beats Rock, you win this round!";
                 playerScore++;
             }
             else {
                 if (cpuChoice === scissors) {
+                    roundOutcomeTxt.setAttribute("class", "round-lost");
                     outcomeResult = "Scissors beat Paper, you lost this round!";
                     cpuScore++;
                 }
                 else if (cpuChoice === paper) {
+                    roundOutcomeTxt.setAttribute("class", "round-tie");
                     outcomeResult = "Paper does not beat Paper, it's a tie!";
                 }
             }
@@ -86,15 +92,18 @@ function playRound(e){
         }
         case scissors:{
             if (cpuChoice === paper) {
+                roundOutcomeTxt.setAttribute("class", "round-won");
                 outcomeResult = "Scissors beat paper, you win this round!";
                 playerScore++;
             }
             else {
                 if (cpuChoice === rock) {
+                    roundOutcomeTxt.setAttribute("class", "round-lost");
                     outcomeResult = "Rock beats Scissors, you lost this round!";
                     cpuScore++;
                 }
                 else if (cpuChoice === scissors) {
+                    roundOutcomeTxt.setAttribute("class", "round-tie");
                     outcomeResult = "Scissors does not beat Scissors, it's a tie!";
                 } 
             }
@@ -103,7 +112,13 @@ function playRound(e){
     }
 
     displayActualScore();
-    displayRoundOutcome(outcomeResult);
+
+    if (playerScore >= 5 || cpuScore >= 5){
+        onGameEndDetermineWinner();
+    }
+    else {
+        displayRoundOutcome(outcomeResult);
+    }
 }
 
 // #region UI FUNCS
@@ -119,29 +134,26 @@ function displayContestantsChoices() {
 }
 
 function displayRoundOutcome(txt){
-    
-    if (playerScore >= 5 || cpuScore >= 5) {
-        determineWinner();
-        return;
-    }
-    
     roundOutcomeTxt.textContent = txt;
 }
 
-function determineWinner() {
+function onGameEndDetermineWinner() {
 
     let gameResult;
     if (playerScore > cpuScore) {
+        roundOutcomeTxt.setAttribute("class", "round-won");
         gameResult = `You won with a score of ${playerScore}!`;
     }
     else if (playerScore < cpuScore) {
+        roundOutcomeTxt.setAttribute("class", "round-lost");
         gameResult = `Computer won with a score of ${cpuScore}!`;
     }
     else if(playerScore === cpuScore) {
+        roundOutcomeTxt.setAttribute("class", "round-tie");
         gameResult = "It's a tie!";
     }
 
-    displayRoundOutcome(gameResult);
+    roundOutcomeTxt.textContent = gameResult + " Reload the page to play again!";
     gameOver = true;
 }
 

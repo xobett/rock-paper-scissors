@@ -100,7 +100,19 @@ body {
     text-align: center;
 }
 
-.round-outcome{
+.round-outcome, .round-won, .round-lost, .round-tie{
     text-align: center;
     font-size: 20px;
+}
+
+.round-won{
+    color: #6ed26e;
+}
+
+.round-lost{
+    color: #d9272d;
+}
+
+.round-tie{
+    color: #203880;
 }
